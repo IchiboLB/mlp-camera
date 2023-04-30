@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.basdoor.mlpcamera"
-        minSdk 29
+        minSdk 30
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -55,4 +55,8 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    // pose detection
+    implementation 'com.google.mlkit:pose-detection:18.0.0-beta3'
+    implementation 'com.google.mlkit:pose-detection-accurate:18.0.0-beta3'
 }
