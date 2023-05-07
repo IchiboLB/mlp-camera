@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -14,7 +15,7 @@ import com.basdoor.mlpcamera.R
 import com.basdoor.mlpcamera.helpers.FrameAnalyzer
 import com.google.common.util.concurrent.ListenableFuture
 
-class ScamActivity : AppCompatActivity() {
+@ExperimentalGetImage class ScamActivity : AppCompatActivity() {
     private lateinit var camProvider: ListenableFuture<ProcessCameraProvider>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +36,8 @@ class ScamActivity : AppCompatActivity() {
         preview.setSurfaceProvider(previewCam.surfaceProvider)
         val imageAnalyzer = ImageAnalysis.Builder().setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
-        imageAnalyzer.setAnalyzer(mainExecutor, FrameAnalyzer())
+        val viewPoint = findViewById<LandmarkView>(R.id.keyframes)
+        imageAnalyzer.setAnalyzer(mainExecutor, FrameAnalyzer(viewPoint))
         cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalyzer)
     }
 }
