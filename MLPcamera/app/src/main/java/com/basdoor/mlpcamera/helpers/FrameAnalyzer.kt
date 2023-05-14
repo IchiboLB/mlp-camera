@@ -1,5 +1,6 @@
 package com.basdoor.mlpcamera.helpers
 
+import android.util.Size
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
@@ -8,6 +9,8 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.pose.PoseDetection
 import com.google.mlkit.vision.pose.PoseDetector
 import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions
+import java.lang.Integer.max
+import java.lang.Integer.min
 
 @ExperimentalGetImage
 class FrameAnalyzer(
@@ -22,13 +25,21 @@ class FrameAnalyzer(
            val imageForDetector = InputImage.fromMediaImage(mediaImage,image.imageInfo.rotationDegrees)
             detector.process(imageForDetector)
                 .addOnSuccessListener {
-                    resultPose -> viewPoint.setParameters(resultPose)
+                    resultPose ->
+                    val size = Size(
+                        min(image.width, image.height),
+                        max(image.width, image.height)
+                    )
+                    println(size)
+                    viewPoint.setParameters(resultPose, size)
+                    image.close()
             }
                 .addOnFailureListener{
                     println("цель утекла")
+                    image.close()
                 }
         }
-        image.close()
+
     }
 
 }

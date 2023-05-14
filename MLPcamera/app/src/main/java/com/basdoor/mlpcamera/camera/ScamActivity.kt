@@ -28,7 +28,7 @@ import com.google.common.util.concurrent.ListenableFuture
     }
 
     private fun camBind(cameraProvider: ProcessCameraProvider) {
-        val cameraSelector = CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_FRONT)
+        val cameraSelector = CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK)
             .build()
         val preview = Preview.Builder()
             .build()
