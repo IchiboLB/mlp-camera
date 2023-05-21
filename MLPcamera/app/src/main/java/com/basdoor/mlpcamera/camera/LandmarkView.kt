@@ -12,6 +12,7 @@ import android.view.View
 import com.google.mlkit.vision.common.PointF3D
 import com.google.mlkit.vision.pose.Pose
 import com.google.mlkit.vision.pose.PoseLandmark
+import kotlinx.coroutines.MainScope
 
 class LandmarkView(
     context: Context,
@@ -68,14 +69,17 @@ class LandmarkView(
         landmark = detectedPose?.getPoseLandmark((PoseLandmark.LEFT_SHOULDER))
         landmark?.let {
             drawLandmark(it, canvas)
+            val lShoulder = landmark
         }
         landmark = detectedPose?.getPoseLandmark((PoseLandmark.RIGHT_ELBOW))
         landmark?.let {
             drawLandmark(it, canvas)
+            val rElbow = landmark
         }
         landmark = detectedPose?.getPoseLandmark((PoseLandmark.LEFT_ELBOW))
         landmark?.let {
             drawLandmark(it, canvas)
+            val lElbow = landmark
         }
 
     }
@@ -89,7 +93,7 @@ class LandmarkView(
     private fun drawLandmark(landmark: PoseLandmark, drawCanvas: Canvas?) {
         val position = convertPoint(landmark.position3D)
 
-        drawCanvas?.drawCircle(position.x, position.y,20F, mainKist)
+        drawCanvas?.drawCircle(position.x, position.y,10F, mainKist)
     }
 
     private fun convertPoint(target: PointF3D): PointF {
